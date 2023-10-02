@@ -18,12 +18,10 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var adapter: RecipeAdapter
     private lateinit var db: FirebaseFirestore
     private val originalData = mutableListOf<RecipeData>()
-    private var foodName: String? = null // Declare foodName as a member variable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recipe_page)
-        foodName = intent.getStringExtra("foodName") // Assign value to foodName member variable
 
         recyclerView = findViewById(R.id.ingredients_view)
         db = FirebaseFirestore.getInstance()
@@ -38,31 +36,28 @@ class RecipeActivity : AppCompatActivity() {
             val intent = Intent(this, CookBookActivity::class.java)
             startActivity(intent)
         }
-
-        fetchInitialData()
+        val recipeName = intent.getStringExtra("recipeName")
+        val recipeImage = intent.getStringExtra("recipeImage")
+        fetchInitialData(recipeName!!, recipeImage!!)
     }
 
-    private fun fetchInitialData() {
+    private fun fetchInitialData(recipeName: String, recipeImage: String) {
         db.collection("recipies")
+            .whereEqualTo("name", recipeName)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val snapshotList = querySnapshot.documents
-                val newData = mutableListOf<RecipeData>() // Создаем новый экземпляр списка данных
                 for (document in snapshotList) {
                     if (document != null && document.exists()) {
-                        val foodName = document.getString("name") ?: ""
-                        val ingredients = document.get("ingredients") as? ArrayList<String>
-                        val recipeImage = document.getString("image") ?: ""
-                        if (ingredients != null) {
-                            val myData = RecipeData(foodName, ingredients, recipeImage)
-                            newData.add(myData) // Добавляем данные в новый список
-                        }
+                        val ingredients = document.get("ingredients") as List<*>
+                        val myData = RecipeData(recipeName, ingredients, recipeImage)
+
+                        originalData.clear()
+                        originalData.add(myData)
+                        adapter.notifyDataSetChanged()
+                        Log.d("Data Size", "originalData Size: ${originalData.size}")
                     }
                 }
-                originalData.clear() // Очищаем старые данные из originalData
-                originalData.addAll(newData) // Добавляем новые данные в originalData
-                adapter.notifyDataSetChanged() // Обновляем адаптер
-                Log.d("Data Size", "originalData Size: ${originalData.size}")
             }
     }
 }

@@ -25,19 +25,6 @@ class CookBookAdapter(
         val tvFoodName: TextView = itemView.findViewById(R.id.name)
         val btnRecipeImage: AppCompatImageButton =
             itemView.findViewById(R.id.recipe_image_button)
-
-        init {
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val selectedData = data[position]
-                    val intent = Intent(itemView.context, RecipeActivity::class.java)
-                    intent.putExtra("recipeName", selectedData.foodName)
-                    intent.putExtra("recipeImage", selectedData.recipeImage)
-                    itemView.context.startActivity(intent)
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,13 +46,8 @@ class CookBookAdapter(
 
         holder.btnRecipeImage.setOnClickListener {
             val intent = Intent(context, RecipeActivity::class.java)
-            intent.putExtra("foodName", item.foodName)
-            context.startActivity(intent)
-        }
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, RecipeActivity::class.java)
-            intent.putExtra("foodName", item.foodName)
+            intent.putExtra("recipeName", item.foodName)
+            intent.putExtra("recipeImage", item.recipeImage)
             context.startActivity(intent)
         }
     }

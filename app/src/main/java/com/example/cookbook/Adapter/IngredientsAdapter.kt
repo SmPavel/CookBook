@@ -10,7 +10,7 @@ import com.example.cookbook.R
 
 class IngredientsAdapter(
     private val context: Context,
-    private val data: List<String>
+    private val data: List<*>
 ) : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,6 +28,6 @@ class IngredientsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = data[position]
-        holder.ingredientText.text = ingredient
+        holder.ingredientText.text = ingredient.toString()
     }
 }

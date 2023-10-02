@@ -12,14 +12,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cookbook.R
 
-data class RecipeData(val foodName: String, val ingredients: List<String>, val recipeImage: String)
+data class RecipeData(val foodName: String?, val ingredients: List<*>, val recipeImage: String?)
 
 class RecipeAdapter(
     private val context: Context,
     private val data: List<RecipeData>
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val foodNameText: TextView = itemView.findViewById(R.id.food_name)
         val ingredientsRecyclerView: RecyclerView = itemView.findViewById(R.id.ingredients_view)
         val recipeImage: ImageView = itemView.findViewById(R.id.recipe_image)
