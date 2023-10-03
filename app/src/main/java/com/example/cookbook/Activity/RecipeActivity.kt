@@ -1,21 +1,22 @@
 package com.example.cookbook.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cookbook.Adapter.RecipeAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.cookbook.Adapter.IngredientsAdapter
 import com.example.cookbook.Adapter.RecipeData
 import com.example.cookbook.R
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 class RecipeActivity : AppCompatActivity() {
     private lateinit var btnBack: Button
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: RecipeAdapter
     private lateinit var db: FirebaseFirestore
     private val originalData = mutableListOf<RecipeData>()
 
@@ -25,39 +26,37 @@ class RecipeActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.ingredients_view)
         db = FirebaseFirestore.getInstance()
-        adapter = RecipeAdapter(this, originalData)
-        recyclerView.adapter = adapter
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        btnBack = findViewById(R.id.back_button)
+        btnBack = findViewById(R.id.btnBack)
+        btnBack.setOnClickListener(null)
         btnBack.setOnClickListener {
             val intent = Intent(this, CookBookActivity::class.java)
             startActivity(intent)
+            finish()
         }
-        val recipeName = intent.getStringExtra("recipeName")
-        val recipeImage = intent.getStringExtra("recipeImage")
-        fetchInitialData(recipeName!!, recipeImage!!)
-    }
 
-    private fun fetchInitialData(recipeName: String, recipeImage: String) {
-        db.collection("recipies")
-            .whereEqualTo("name", recipeName)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val snapshotList = querySnapshot.documents
-                for (document in snapshotList) {
-                    if (document != null && document.exists()) {
-                        val ingredients = document.get("ingredients") as List<*>
-                        val myData = RecipeData(recipeName, ingredients, recipeImage)
+        val name: TextView = findViewById(R.id.food_name)
+        val ingredients: RecyclerView = findViewById(R.id.ingredients_view)
+        val image: ImageView = findViewById(R.id.recipe_image)
 
-                        originalData.clear()
-                        originalData.add(myData)
-                        adapter.notifyDataSetChanged()
-                        Log.d("Data Size", "originalData Size: ${originalData.size}")
-                    }
-                }
-            }
+        val recipeName = intent.getStringExtra("recipeName")!!
+        val ingredientsList = intent.getStringArrayListExtra("ingredientsList")!!
+        val recipeImage = intent.getStringExtra("recipeImage")!!
+
+        name.text = recipeName
+
+        Glide.with(this)
+            .load(recipeImage)
+            .apply(RequestOptions().centerCrop().placeholder(R.drawable.ic_food))
+            .into(image)
+
+        val recipeData = RecipeData(recipeName, ingredientsList, recipeImage)
+        originalData.add(recipeData)
+
+        val ingredientsAdapter = IngredientsAdapter(ingredientsList)
+        recyclerView.adapter = ingredientsAdapter
     }
 }

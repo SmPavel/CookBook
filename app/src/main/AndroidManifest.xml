@@ -27,7 +27,8 @@
 
         <activity android:name=".Activity.LoginActivity" />
 
-        <activity android:name=".Activity.CookBookActivity" />
+        <activity android:name=".Activity.CookBookActivity"
+            android:launchMode="singleTop" />
 
         <activity android:name=".Activity.NoteActivity" />
 
@@ -35,7 +36,8 @@
 
         <activity android:name=".Activity.UnauthorizedUserMessageActivity" />
 
-        <activity android:name=".Activity.RecipeActivity" />
+        <activity android:name=".Activity.RecipeActivity"
+            android:launchMode="singleTop" />
 
         <activity android:name=".Activity.CheckUserActivity" />
 

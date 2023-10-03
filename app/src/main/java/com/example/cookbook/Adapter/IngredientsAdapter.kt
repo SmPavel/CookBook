@@ -5,21 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.R
 
-class IngredientsAdapter(
-    private val context: Context,
-    private val data: List<*>
-) : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
+data class RecipeData(val foodName: String, val ingredientsList: ArrayList<String>, val recipeImage: String)
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ingredientText: TextView = itemView.findViewById(R.id.ingredients)
+class IngredientsAdapter
+    (private val data: List<String>
+) : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ingredientsList: TextView = itemView.findViewById(R.id.ingredients)
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.row_ingredients, parent, false)
-        return ViewHolder(view)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_ingredients, parent, false)
+        return ViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
@@ -28,6 +30,7 @@ class IngredientsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = data[position]
-        holder.ingredientText.text = ingredient.toString()
+        holder.ingredientsList.setText(ingredient)
     }
+
 }

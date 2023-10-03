@@ -14,11 +14,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cookbook.Activity.RecipeActivity
 import com.example.cookbook.R
 
-data class CookBookData(val foodName: String, val recipeImage: String)
-
 class CookBookAdapter(
     private val context: Context,
-    private val data: List<CookBookData>
+    private val data: List<RecipeData>
 ) : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,6 +46,7 @@ class CookBookAdapter(
             val intent = Intent(context, RecipeActivity::class.java)
             intent.putExtra("recipeName", item.foodName)
             intent.putExtra("recipeImage", item.recipeImage)
+            intent.putStringArrayListExtra("ingredientsList", item.ingredientsList)
             context.startActivity(intent)
         }
     }

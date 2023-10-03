@@ -12,7 +12,7 @@ class GetUrlActivity : AppCompatActivity() {
         val storage = FirebaseStorage.getInstance()
 
         // Create a reference to the image file
-        val imageRef = storage.getReferenceFromUrl("gs://cookbook-5dc21.appspot.com/chebureki.jpeg")
+        val imageRef = storage.getReferenceFromUrl("gs://cookbook-5dc21.appspot.com/salatCezar.jpg")
 
         // Get the download URL of the image
         imageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -20,15 +20,11 @@ class GetUrlActivity : AppCompatActivity() {
 
             // Store the URL in Firestore
             val db = FirebaseFirestore.getInstance()
-            val imageDocRef = db.collection("recipies").document("NJ0NeNfigSPkjwmzZQUZ")
+            val imageDocRef = db.collection("recipies").document("wWJmTcK77HJDp0REQVuU")
 
             val newImageUrl = hashMapOf<String, Any>("image" to imageUrl)
 
-            imageDocRef.update(newImageUrl).addOnSuccessListener {
-                // Handle successful update in Firestore if needed
-            }.addOnFailureListener { e ->
-                // Handle failure while updating Firestore if needed
-            }
+            imageDocRef.update(newImageUrl)
         }
     }
 }
