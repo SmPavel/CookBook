@@ -22,6 +22,7 @@ class NoteActivity : AppCompatActivity() {
 
     private lateinit var btnAdd: AppCompatImageButton
     private lateinit var btnDelete: FloatingActionButton
+    private lateinit var btnUser: Button
     private lateinit var btnBack: Button
 
     private lateinit var recyclerView: RecyclerView
@@ -47,6 +48,13 @@ class NoteActivity : AppCompatActivity() {
 
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = adapter
+
+            btnUser= findViewById(R.id.about_user)
+        
+            btnUser.setOnClickListener {
+                val intent = Intent(this, AboutUserActivity::class.java)
+                startActivity(intent)
+            }
 
             fetchData()
 
@@ -86,10 +94,7 @@ class NoteActivity : AppCompatActivity() {
             }
 
             btnDelete.setOnClickListener {
-                auth.signOut()
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-                /*deleteCompletedExercises()*/
+                deleteCompletedExercises()
             }
         }
 

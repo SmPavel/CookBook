@@ -47,7 +47,7 @@ class NoteAdapter(private val context: Context, private val data: List<NoteData>
                     val item = data[position]
                     item.checkBox = isChecked
                     db.collection("foodNote").document(item.documentId)
-                        .update("completed", isChecked)
+                        .update("checked", isChecked)
                         .addOnSuccessListener {
                             Log.d(TAG, "DocumentSnapshot successfully updated!")
                         }

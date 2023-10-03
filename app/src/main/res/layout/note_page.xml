@@ -66,6 +66,19 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/about_user"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="О пользователе"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/back"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/back"
         android:layout_width="300dp"
         android:layout_height="wrap_content"

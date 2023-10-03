@@ -41,6 +41,8 @@
 
         <activity android:name=".Activity.CheckUserActivity" />
 
+        <activity android:name=".Activity.AboutUserActivity" />
+
         <activity android:name=".Activity.GetUrlActivity" />
 
     </application>
